@@ -1,5 +1,5 @@
-# imageloader
-图片加载类，加载正常、圆形、圆角图片
+# XQuickAdapter
+RecyclerView ListView GridView 通用适配器。
 
 ### 引入
 
