@@ -23,46 +23,36 @@ import java.util.List;
  */
 
 public abstract class XQuickAdapter<T> extends XBaseAdapter {
-    protected Activity mContext;
+    protected Activity mActivity;
     protected List<T> mData;
     private int mLayoutId;
     private XQuickMultiSupport<T> mSupport;
     private int mPosition;
+    // 粘附的Key
+    private static final int STACK_KEY = 10000;
 
-    public XQuickAdapter(Activity context, List<T> data, int layoutId) {
-        this.mContext = context;
+    public XQuickAdapter(Activity activity, List<T> data, int layoutId) {
+        this.mActivity = activity;
         this.mData = data == null ? new ArrayList<T>() : new ArrayList<T>(data);
         this.mLayoutId = layoutId;
     }
 
-    public XQuickAdapter(Activity context, int layoutId) {
-        this.mContext = context;
-        this.mData = new ArrayList<T>();
-        this.mLayoutId = layoutId;
+    public XQuickAdapter(Activity activity, int layoutId) {
+        this(activity, null, layoutId);
     }
 
-    public XQuickAdapter(Activity context, List<T> data, XQuickMultiSupport<T> support) {
-        this(context, data, 0);
+    public XQuickAdapter(Activity activity, List<T> data, XQuickMultiSupport<T> support) {
+        this.mActivity = activity;
+        this.mData = data == null ? new ArrayList<T>() : new ArrayList<T>(data);
         this.mSupport = support;
     }
+
     public XQuickAdapter(Activity context, XQuickMultiSupport<T> support) {
         this(context, null, support);
     }
-    public XQuickAdapter(Activity context) {
-        this(context, null, 0);
-    }
-
-    public XQuickAdapter(Activity context, List<T> data) {
-        this(context, data, 0);
-    }
-
-    public void setSupport(XQuickMultiSupport<T> support) {
-        mSupport = support;
-    }
-
 
     public Activity getAppActivity() {
-        return mContext;
+        return mActivity;
     }
 
     @Override
@@ -115,7 +105,7 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
     @NonNull
     private XQuickViewHolder createListHolder(ViewGroup parent, int layoutId) {
         XQuickViewHolder holder;
-        View itemView = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
+        View itemView = LayoutInflater.from(mActivity).inflate(layoutId, parent, false);
         holder = new XQuickViewHolder(itemView, layoutId);
         itemView.setTag(holder);
         return holder;
@@ -153,16 +143,16 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
         // 如果是多条目，viewType就是布局ID
         View view;
         if (mSupport != null) {
-            Object tagPosition = parent.getTag(R.id.view_position);
+            Object tagPosition = parent.getTag(STACK_KEY);
             int layoutId = mSupport.getLayoutId(mData.get(mPosition), mPosition);
             // 滚动布局
             if (tagPosition != null) {
                 int position = (int) tagPosition;
                 layoutId = mSupport.getLayoutId(mData.get(position), position);
             }
-            view = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
+            view = LayoutInflater.from(mActivity).inflate(layoutId, parent, false);
         } else {
-            view = LayoutInflater.from(mContext).inflate(mLayoutId, parent, false);
+            view = LayoutInflater.from(mActivity).inflate(mLayoutId, parent, false);
         }
 
         XQuickViewHolder holder = new XQuickViewHolder(view);
@@ -387,13 +377,13 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
      * 打开Activity
      */
     public final void startActivity(Class<?> clazz, @Nullable Bundle options) {
-        if (mContext == null) {
+        if (mActivity == null) {
             return;
         }
-        Intent intent = new Intent(mContext, clazz);
+        Intent intent = new Intent(mActivity, clazz);
         if (options != null) {
             intent.putExtras(options);
         }
-        mContext.startActivity(intent);
+        mActivity.startActivity(intent);
     }
 }
