@@ -140,7 +140,6 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
         if (data == null || data.size() <= 0) {
             return;
         }
-
         if (mData != null && mData.size() > 0) {
             mData.addAll(index, data);
         } else {
@@ -209,35 +208,49 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
         return mData.contains(elem);
     }
 
-
+    /**
+     * 获取集合
+     */
     public List<T> getData() {
         return mData;
     }
 
-    public T getDataFirst() {
+    /**
+     * 获取集合的长度
+     */
+    public int getDataSize() {
+        return mData.size();
+    }
+
+    /**
+     * 获取集合第一个元素
+     */
+    public T getFirst() {
         if (mData != null && mData.size() > 0) {
             return mData.get(0);
         }
         return null;
     }
 
-
-    public T getDataLast() {
+    /**
+     * 获取集合最后一个元素
+     */
+    public T getLast() {
         if (mData != null && mData.size() > 0) {
             return mData.get(mData.size() - 1);
         }
         return null;
     }
 
-    public void setData(List<T> data) {
-        mData = data;
+    /**
+     * 是不是最后一个条目
+     */
+    public boolean isLast(int position) {
+        return position == mData.size() - 1;
     }
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     *
-     * @param dpValue 虚拟像素
-     * @return 像素
      */
     public int dp2px(float dpValue) {
         return (int) (0.5f + dpValue * Resources.getSystem().getDisplayMetrics().density);

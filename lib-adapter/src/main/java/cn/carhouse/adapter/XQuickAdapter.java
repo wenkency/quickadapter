@@ -333,27 +333,45 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
     }
 
 
+    /**
+     * 获取集合
+     */
     public List<T> getData() {
         return mData;
     }
 
-    public T getDataFirst() {
+    /**
+     * 获取集合的长度
+     */
+    public int getDataSize() {
+        return mData.size();
+    }
+
+    /**
+     * 获取集合第一个元素
+     */
+    public T getFirst() {
         if (mData != null && mData.size() > 0) {
             return mData.get(0);
         }
         return null;
     }
 
-
-    public T getDataLast() {
+    /**
+     * 获取集合最后一个元素
+     */
+    public T getLast() {
         if (mData != null && mData.size() > 0) {
             return mData.get(mData.size() - 1);
         }
         return null;
     }
 
-    public void setData(List<T> data) {
-        mData = data;
+    /**
+     * 是不是最后一个条目
+     */
+    public boolean isLast(int position) {
+        return position == mData.size() - 1;
     }
 
     /**
