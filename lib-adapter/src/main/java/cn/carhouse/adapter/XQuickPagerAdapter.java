@@ -80,6 +80,7 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
                 holder = createListHolder(container, mLayoutId);
             }
         }
+        container.addView(holder.itemView);
         // 绑定View的数据
         convert(holder, mData.get(position), position);
         return holder.itemView;
