@@ -12,7 +12,7 @@ allprojects {
 	}
 
 
-implementation 'com.github.wenkency:quickadapter:1.0.0'
+implementation 'com.github.wenkency:quickadapter:1.2.0'
 
 ```
 
