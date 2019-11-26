@@ -27,12 +27,13 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 50; i++) {
             data.add(url);
         }
-        mRecyclerView.setAdapter(new XQuickAdapter<String>(this, data, R.layout.item_recyler) {
+        XQuickAdapter<String> adapter = new XQuickAdapter<String>(this, data, R.layout.item_recyler) {
             @Override
             protected void convert(XQuickViewHolder holder, String item, int position) {
                 holder.setText(R.id.tv, "item " + position);
                 holder.displayCircleImage(R.id.iv, item);
             }
-        });
+        };
+        mRecyclerView.setAdapter(adapter);
     }
 }

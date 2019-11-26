@@ -25,6 +25,18 @@ implementation 'com.github.wenkency:quickadapter:1.3.0'
                 holder.displayCircleImage(R.id.iv, item);
             }
         });
+  // 增
+  adapter.add(item);
+  adapter.addAll(list);
+  // 删
+  adapter.remove(item);
+  adapter.remove(index);
+  // 改
+  adapter.set(index,item);
+  // 获取集合数据
+  adapter.getData();
+  // 刷新数据
+  adapter.notifyItemsData();
 ```
 
 ### 运行结果
