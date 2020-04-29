@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -376,6 +377,18 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
             return;
         }
         notifyDataSetChanged();
+    }
+
+    /**
+     * 位置交换
+     */
+    public void swap(int fromPosition, int toPosition) {
+        Collections.swap(mData, fromPosition, toPosition);
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     /**
