@@ -1,5 +1,8 @@
 # XQuickAdapter
-RecyclerView ListView GridView 通用适配器。
+/**
+ * RecyclerView、ListView、GridView通用的适配器
+ * ListView、GridView请调用：{@link #setListView(boolean)}
+ */
 
 ### 引入
 
@@ -12,7 +15,7 @@ allprojects {
 	}
 
 
-implementation 'com.github.wenkency:quickadapter:1.4.0'
+implementation 'com.github.wenkency:quickadapter:1.5.0'
 
 ```
 
@@ -38,7 +41,3 @@ implementation 'com.github.wenkency:quickadapter:1.4.0'
   // 刷新数据
   adapter.notifyItemsData();
 ```
-
-### 运行结果
-
-<img src="screenshot/image.jpg" width="360px"/>
