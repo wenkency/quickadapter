@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.util.List;
 
 /**
  * RecyclerView、ListView、GridView通用的适配器
+ * ListView、GridView请调用：{@link #setListView(boolean)}
  */
 
 public abstract class XQuickAdapter<T> extends XBaseAdapter {
@@ -30,6 +32,10 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
     private int mPosition;
     // 粘附的Key
     private static final int STACK_KEY = 10000;
+    /**
+     * 是不是ListView
+     */
+    private boolean isListView;
 
     public XQuickAdapter(Activity activity, List<T> data, int layoutId) {
         this.mActivity = activity;
@@ -236,17 +242,30 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
     public void add(int index, T elem) {
         if (mData != null && mData.size() > 0) {
             mData.add(index, elem);
+            if (!isListView) {
+                notifyItemInserted(index);
+                return;
+            }
         } else {
-            mData.add(elem);
+            if (!isListView) {
+                add(elem);
+                return;
+            }
         }
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+        }
     }
 
     public void add(T elem) {
         if (elem != null) {
             mData.add(elem);
         }
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyItemInserted(getDataSize() - 1);
     }
 
 
@@ -255,53 +274,96 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
             return;
         }
         mData.addAll(data);
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyDataSetChanged();
     }
 
     public void addAll(int index, List<T> data) {
         if (data == null || data.size() <= 0) {
             return;
         }
-
         if (mData != null && mData.size() > 0) {
             mData.addAll(index, data);
         } else {
             mData.addAll(data);
         }
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyDataSetChanged();
     }
 
 
     public void addFirst(T elem) {
         mData.add(0, elem);
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyItemInserted(0);
     }
 
     public void set(T oldElem, T newElem) {
-        set(mData.indexOf(oldElem), newElem);
-        notifyItemsData();
+        int index = mData.indexOf(oldElem);
+        if (index == -1) {
+            return;
+        }
+        set(index, newElem);
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyItemChanged(index);
     }
 
     public void set(int index, T elem) {
         mData.set(index, elem);
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyItemChanged(index);
     }
 
     public void remove(T elem) {
+        int index = mData.indexOf(elem);
+        if (index == -1) {
+            return;
+        }
         mData.remove(elem);
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyItemRemoved(index);
     }
 
-    public void remove(int index) {
-        mData.remove(index);
-        notifyItemsData();
+    public T remove(int index) {
+        T item = mData.remove(index);
+        if (item == null) {
+            return null;
+        }
+        if (isListView) {
+            notifyListDataSetChanged();
+            return item;
+        }
+        notifyItemRemoved(index);
+        return item;
     }
 
     public void removeAll(List<T> elem) {
         if (elem != null && elem.size() > 0) {
             mData.removeAll(elem);
         }
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyDataSetChanged();
     }
 
     public void replaceAll(List<T> elem) {
@@ -309,7 +371,11 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
         if (elem != null && elem.size() > 0) {
             mData.addAll(elem);
         }
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyDataSetChanged();
     }
 
     /**
@@ -317,16 +383,13 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
      */
     public void clear() {
         mData.clear();
-        notifyItemsData();
+        if (isListView) {
+            notifyListDataSetChanged();
+            return;
+        }
+        notifyDataSetChanged();
     }
 
-    /**
-     * 刷新数据
-     */
-    public void notifyItemsData() {
-        notifyDataSetChanged();
-        notifyListDataSetChanged();
-    }
 
     public boolean contains(T elem) {
         return mData.contains(elem);
@@ -367,6 +430,14 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
         return null;
     }
 
+    public boolean isListView() {
+        return isListView;
+    }
+
+    public void setListView(boolean isListView) {
+        this.isListView = isListView;
+    }
+
     /**
      * 是不是最后一个条目
      */
@@ -377,11 +448,11 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      *
-     * @param dpValue 虚拟像素
+     * @param value 虚拟像素
      * @return 像素
      */
-    public int dp2px(float dpValue) {
-        return (int) (0.5f + dpValue * Resources.getSystem().getDisplayMetrics().density);
+    public int dp2px(float value) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, Resources.getSystem().getDisplayMetrics());
     }
 
     /**
