@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         data = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             data.add(url);
@@ -43,6 +43,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test(View view) {
-        adapter.addAll(data);
+        adapter.remove(0);
     }
 }

@@ -79,6 +79,7 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        isListView = true;
         XQuickViewHolder holder;
         if (convertView == null) {
             int layoutId = mLayoutId;
@@ -147,6 +148,7 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
     // RecyclerView=================================================================================
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        isListView = false;
         // 如果是多条目，viewType就是布局ID
         View view;
         if (mSupport != null) {
