@@ -1,20 +1,19 @@
 ext {
     app = [
-            compileSdkVersion: 29,
-            minSdkVersion    : 15,
-            targetSdkVersion : 29,
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.0",
+            minSdkVersion    : 14,
+            targetSdkVersion : 30,
             versionCode      : 1,
             versionName      : "1.0"
     ]
 
     // 公共配置
-    depsVersion = [
-            appcompat   : "1.1.0",
-            recyclerview: "1.1.0-rc01",
-            imageloader : "2.2.0",
-    ]
-    // 公共配置
     depsLibs = [
-            appcompat: "androidx.appcompat:appcompat:${depsVersion.appcompat}",
+            appcompat    : "androidx.appcompat:appcompat:1.1.0",
+            recyclerview : "androidx.recyclerview:recyclerview:1.2.0-alpha04",
+            glide        : "com.github.bumptech.glide:glide:4.11.0",
+            glideCompiler: "com.github.bumptech.glide:compiler:4.11.0",
+            imageloader  : 'com.github.wenkency:imageloader:2.7.0'
     ]
 }

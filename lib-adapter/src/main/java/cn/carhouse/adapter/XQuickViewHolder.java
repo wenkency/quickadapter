@@ -221,6 +221,23 @@ public class XQuickViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    /**
+     * 根据URL加载图片
+     */
+    public XQuickViewHolder displayImage(int viewId, String url, int width, int height) {
+        View view = getView(viewId);
+        ImageLoaderFactory.getInstance().displayImage(view, url, width, height);
+        return this;
+    }
+
+    /**
+     * 根据URL加载图片
+     */
+    public XQuickViewHolder displayImage(int viewId, String url, int errorResId, int width, int height) {
+        View view = getView(viewId);
+        ImageLoaderFactory.getInstance().displayImage(view, url, errorResId, width, height);
+        return this;
+    }
 
     /**
      * 根据URL加载图片
@@ -252,6 +269,24 @@ public class XQuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * 根据URL加载圆形图片
      */
+    public XQuickViewHolder displayCircleImage(int viewId, String url, int errorResId, int width, int height) {
+        View view = getView(viewId);
+        ImageLoaderFactory.getInstance().displayCircleImage(view, url, errorResId, width, height);
+        return this;
+    }
+
+    /**
+     * 根据URL加载圆形图片
+     */
+    public XQuickViewHolder displayCircleImage(int viewId, String url, int width, int height) {
+        View view = getView(viewId);
+        ImageLoaderFactory.getInstance().displayCircleImage(view, url, width, height);
+        return this;
+    }
+
+    /**
+     * 根据URL加载圆形图片
+     */
     public XQuickViewHolder displayCircleImage(int viewId, String url, int errorResId) {
         ImageView imageView = getView(viewId);
         ImageLoaderFactory.getInstance().displayCircleImage(imageView, url, errorResId);
@@ -264,6 +299,24 @@ public class XQuickViewHolder extends RecyclerView.ViewHolder {
     public XQuickViewHolder displayCircleImage(int viewId, String url) {
         ImageView imageView = getView(viewId);
         ImageLoaderFactory.getInstance().displayCircleImage(imageView, url);
+        return this;
+    }
+
+    /**
+     * 根据URL加载圆角图片
+     */
+    public XQuickViewHolder displayRadiusImage(int viewId, String url, int radius, int errorResId, int width, int height) {
+        View view = getView(viewId);
+        ImageLoaderFactory.getInstance().displayRadiusImage(view, url, radius, errorResId, width, height);
+        return this;
+    }
+
+    /**
+     * 根据URL加载圆角图片
+     */
+    public XQuickViewHolder displayRadiusImage(int viewId, String url, int radius, int width, int height) {
+        View view = getView(viewId);
+        ImageLoaderFactory.getInstance().displayRadiusImage(view, url, radius, width, height);
         return this;
     }
 

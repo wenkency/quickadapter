@@ -3,9 +3,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.wenkency'
 def app = rootProject.ext.app
-def depsVersion = rootProject.ext.depsVersion
 android {
     compileSdkVersion app.compileSdkVersion
+    buildToolsVersion app.buildToolsVersion
 
     defaultConfig {
         minSdkVersion app.minSdkVersion
@@ -26,7 +26,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.appcompat:appcompat:${depsVersion.appcompat}"
-    implementation "androidx.recyclerview:recyclerview:${depsVersion.recyclerview}"
-    implementation "com.github.wenkency:imageloader:${depsVersion.imageloader}"
+    compileOnly depsLibs.appcompat
+    compileOnly depsLibs.recyclerview
+    compileOnly depsLibs.imageloader
+    compileOnly depsLibs.glide
+    annotationProcessor depsLibs.glideCompiler
 }

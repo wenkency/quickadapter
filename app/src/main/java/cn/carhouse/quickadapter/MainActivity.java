@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void convert(XQuickViewHolder holder, String item, int position) {
                 holder.setText(R.id.tv, "item " + position);
-                holder.displayCircleImage(R.id.iv, item);
+                holder.displayCircleImage(R.id.iv, item,120,120);
             }
         };
         mRecyclerView.setAdapter(adapter);
