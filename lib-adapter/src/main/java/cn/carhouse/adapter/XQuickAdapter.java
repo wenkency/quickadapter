@@ -39,9 +39,6 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
      */
     private boolean isListView;
 
-    public XQuickAdapter(Activity mActivity) {
-        this.mActivity = mActivity;
-    }
 
     public XQuickAdapter(Activity activity, int layoutId) {
         this(activity, null, layoutId);
@@ -58,6 +55,10 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
         this.mActivity = activity;
         this.mData = data == null ? new ArrayList<T>() : new ArrayList<T>(data);
         this.mSupport = support;
+    }
+
+    public XQuickAdapter(Activity activity) {
+        this(activity, null);
     }
 
     public XQuickAdapter(Activity context, XQuickMultiSupport<T> support) {
