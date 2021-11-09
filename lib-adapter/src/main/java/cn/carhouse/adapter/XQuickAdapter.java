@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -31,12 +32,20 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
     private int mLayoutId;
     private XQuickMultiSupport<T> mSupport;
     private int mPosition;
-    // 粘附的Key
-    private static final int STACK_KEY = 10000;
+    private int stickViewId = -1;
+
     /**
      * 是不是ListView
      */
     private boolean isListView;
+
+    public XQuickAdapter(Activity mActivity) {
+        this.mActivity = mActivity;
+    }
+
+    public XQuickAdapter(Activity activity, int layoutId) {
+        this(activity, null, layoutId);
+    }
 
     public XQuickAdapter(Activity activity, List<T> data, int layoutId) {
         this.mActivity = activity;
@@ -44,9 +53,6 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
         this.mLayoutId = layoutId;
     }
 
-    public XQuickAdapter(Activity activity, int layoutId) {
-        this(activity, null, layoutId);
-    }
 
     public XQuickAdapter(Activity activity, List<T> data, XQuickMultiSupport<T> support) {
         this.mActivity = activity;
@@ -152,12 +158,16 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
         // 如果是多条目，viewType就是布局ID
         View view;
         if (mSupport != null) {
-            Object tagPosition = parent.getTag(STACK_KEY);
+
             int layoutId = mSupport.getLayoutId(mData.get(mPosition), mPosition);
             // 滚动布局
-            if (tagPosition != null) {
-                int position = (int) tagPosition;
-                layoutId = mSupport.getLayoutId(mData.get(position), position);
+            // 粘附的Key
+            if (stickViewId != -1) {
+                Object tagPosition = parent.getTag(stickViewId);
+                if (tagPosition != null) {
+                    int position = (int) tagPosition;
+                    layoutId = mSupport.getLayoutId(mData.get(position), position);
+                }
             }
             view = LayoutInflater.from(mActivity).inflate(layoutId, parent, false);
         } else {
@@ -168,13 +178,24 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
         return holder;
     }
 
+    /**
+     * 粘附的Key
+     *
+     * @param stickViewId
+     */
+    public void setStickViewId(@IdRes int stickViewId) {
+        this.stickViewId = stickViewId;
+    }
+
+    public void setMultiSupport(XQuickMultiSupport<T> mSupport) {
+        this.mSupport = mSupport;
+    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof XQuickViewHolder) {
             convert((XQuickViewHolder) holder, mData.get(position), position);
         }
-
     }
 
     @Override

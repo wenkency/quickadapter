@@ -22,11 +22,18 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
     private int mLayoutId;
     // 缓存池
     private ArrayList<View> mCaches = new ArrayList<>(4);
+    // 是否缓存
+    private boolean isCache;
 
     public XQuickPagerAdapter(List<T> data, int layoutId, boolean isLopper) {
+        this(data, layoutId, isLopper, true);
+    }
+
+    public XQuickPagerAdapter(List<T> data, int layoutId, boolean isLopper, boolean isCache) {
         this.mData = data == null ? new ArrayList<T>() : new ArrayList<T>(data);
         this.mLayoutId = layoutId;
         this.isLooper = isLopper;
+        this.isCache = isCache;
     }
 
     public XQuickPagerAdapter(List<T> data, int layoutId) {
@@ -80,6 +87,16 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
                 holder = createListHolder(container, mLayoutId);
             }
         }
+        // 判断一下
+        try {
+            if (holder.itemView.getParent() != null) {
+                ViewGroup viewGroup = (ViewGroup) holder.itemView.getParent();
+                viewGroup.removeView(holder.itemView);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         container.addView(holder.itemView);
         // 绑定View的数据
         convert(holder, mData.get(position), position);
@@ -103,12 +120,17 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         // 1.移除View
-        if (mCaches.size() > 2) {
-            mCaches.remove(0);
+        if (isCache) {
+            if (mCaches.size() > 2) {
+                mCaches.remove(0);
+            }
         }
         View view = (View) object;
         container.removeView(view);
-        mCaches.add(view);
+        if (isCache) {
+            mCaches.add(view);
+        }
+
     }
 
     //==========================================数据相关================================================
