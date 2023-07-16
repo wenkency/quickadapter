@@ -18,8 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private XQuickAdapter<String> adapter;
 
-    String url="https://img.car-house.cn/Upload/goods/20170602/source/20170602120120825.jpg";
-    String newUrl="https://img.car-house.cn/Upload/goods/20161216/source/20161216213917946.jpg";
+    String url="https://buydo.oss-accelerate.aliyuncs.com/buydo/6574697f1f1b4576835cc837697835b4.jpeg";
     private List<String> data;
 
     @Override
@@ -27,16 +26,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         data = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 100; i++) {
             data.add(url);
         }
         adapter = new XQuickAdapter<String>(this, data, R.layout.item_recyler) {
             @Override
             protected void convert(XQuickViewHolder holder, String item, int position) {
                 holder.setText(R.id.tv, "item " + position);
-                holder.displayCircleImage(R.id.iv, item,120,120);
+                holder.displayCircleImage(R.id.iv, item);
             }
         };
         mRecyclerView.setAdapter(adapter);

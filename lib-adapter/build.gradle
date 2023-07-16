@@ -1,17 +1,33 @@
 apply plugin: 'com.android.library'
-// 远程仓库
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
+
+// === 远程仓库配置 ===
 group='com.github.wenkency'
+
 def app = rootProject.ext.app
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.wenkency'
+                artifactId = 'lib-adapter'
+                version = app.versionCode
+            }
+        }
+    }
+}
+// === 远程仓库配置 ===
+
+
 android {
     compileSdkVersion app.compileSdkVersion
-    buildToolsVersion app.buildToolsVersion
 
     defaultConfig {
         minSdkVersion app.minSdkVersion
         targetSdkVersion app.targetSdkVersion
-        versionCode app.versionCode
-        versionName app.versionName
 
     }
 
@@ -30,5 +46,4 @@ dependencies {
     compileOnly depsLibs.recyclerview
     compileOnly depsLibs.imageloader
     compileOnly depsLibs.glide
-    annotationProcessor depsLibs.glideCompiler
 }

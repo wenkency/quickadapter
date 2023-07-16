@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 def app = rootProject.ext.app
 android {
     compileSdkVersion app.compileSdkVersion
-    buildToolsVersion app.buildToolsVersion
 
     defaultConfig {
         minSdkVersion app.minSdkVersion

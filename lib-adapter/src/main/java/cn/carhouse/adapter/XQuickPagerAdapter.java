@@ -20,20 +20,13 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
     protected List<T> mData;// 数据
     protected boolean isLooper;
     private int mLayoutId;
-    // 缓存池
-    private ArrayList<View> mCaches = new ArrayList<>(4);
-    // 是否缓存
-    private boolean isCache;
+
+
 
     public XQuickPagerAdapter(List<T> data, int layoutId, boolean isLopper) {
-        this(data, layoutId, isLopper, true);
-    }
-
-    public XQuickPagerAdapter(List<T> data, int layoutId, boolean isLopper, boolean isCache) {
         this.mData = data == null ? new ArrayList<T>() : new ArrayList<T>(data);
         this.mLayoutId = layoutId;
         this.isLooper = isLopper;
-        this.isCache = isCache;
     }
 
     public XQuickPagerAdapter(List<T> data, int layoutId) {
@@ -74,19 +67,7 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         position = position % mData.size();
-        XQuickViewHolder holder;
-        if (mCaches.size() <= 0) {
-            // 创建ViewHolder
-            holder = createListHolder(container, mLayoutId);
-        } else {
-            View view = mCaches.remove(0);
-            if (view != null) {
-                holder = (XQuickViewHolder) view.getTag();
-            } else {
-                // 创建ViewHolder
-                holder = createListHolder(container, mLayoutId);
-            }
-        }
+        XQuickViewHolder holder = createListHolder(container, mLayoutId);
         // 判断一下
         try {
             if (holder.itemView.getParent() != null) {
@@ -115,22 +96,13 @@ public abstract class XQuickPagerAdapter<T> extends PagerAdapter {
         return holder;
     }
 
-    protected abstract void convert(XQuickViewHolder holder, T data, int position);
+    protected abstract void convert(@NonNull XQuickViewHolder holder,@NonNull T data, int position);
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         // 1.移除View
-        if (isCache) {
-            if (mCaches.size() > 2) {
-                mCaches.remove(0);
-            }
-        }
         View view = (View) object;
         container.removeView(view);
-        if (isCache) {
-            mCaches.add(view);
-        }
-
     }
 
     //==========================================数据相关================================================

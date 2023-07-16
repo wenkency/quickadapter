@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.model.GlideUrl;
+
 import java.lang.ref.WeakReference;
 
 import cn.carhouse.imageloader.ImageLoaderFactory;
@@ -157,18 +159,6 @@ public class XQuickViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * 设置控件是否可见
-     */
-    public XQuickViewHolder setINVisible(int viewId, boolean visible) {
-        View view = getView(viewId);
-        if (view != null) {
-            view.setVisibility(visible ? View.INVISIBLE : View.VISIBLE);
-        }
-        return this;
-    }
-
-
-    /**
      * 设置控件选中
      */
     public XQuickViewHolder setChecked(int viewId, boolean checked) {
@@ -224,18 +214,18 @@ public class XQuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * 根据URL加载图片
      */
-    public XQuickViewHolder displayImage(int viewId, String url, int width, int height) {
+    public XQuickViewHolder displayImage(int viewId, GlideUrl url) {
         View view = getView(viewId);
-        ImageLoaderFactory.getInstance().displayImage(view, url, width, height);
+        ImageLoaderFactory.getInstance().displayImage(view, url);
         return this;
     }
 
     /**
      * 根据URL加载图片
      */
-    public XQuickViewHolder displayImage(int viewId, String url, int errorResId, int width, int height) {
+    public XQuickViewHolder displayImage(int viewId, GlideUrl url, int errorResId) {
         View view = getView(viewId);
-        ImageLoaderFactory.getInstance().displayImage(view, url, errorResId, width, height);
+        ImageLoaderFactory.getInstance().displayImage(view, url, errorResId);
         return this;
     }
 
@@ -269,18 +259,18 @@ public class XQuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * 根据URL加载圆形图片
      */
-    public XQuickViewHolder displayCircleImage(int viewId, String url, int errorResId, int width, int height) {
+    public XQuickViewHolder displayCircleImage(int viewId, GlideUrl url, int errorResId) {
         View view = getView(viewId);
-        ImageLoaderFactory.getInstance().displayCircleImage(view, url, errorResId, width, height);
+        ImageLoaderFactory.getInstance().displayCircleImage(view, url, errorResId);
         return this;
     }
 
     /**
      * 根据URL加载圆形图片
      */
-    public XQuickViewHolder displayCircleImage(int viewId, String url, int width, int height) {
+    public XQuickViewHolder displayCircleImage(int viewId, GlideUrl url) {
         View view = getView(viewId);
-        ImageLoaderFactory.getInstance().displayCircleImage(view, url, width, height);
+        ImageLoaderFactory.getInstance().displayCircleImage(view, url);
         return this;
     }
 
@@ -305,18 +295,18 @@ public class XQuickViewHolder extends RecyclerView.ViewHolder {
     /**
      * 根据URL加载圆角图片
      */
-    public XQuickViewHolder displayRadiusImage(int viewId, String url, int radius, int errorResId, int width, int height) {
+    public XQuickViewHolder displayRadiusImage(int viewId, GlideUrl url, int radius, int errorResId) {
         View view = getView(viewId);
-        ImageLoaderFactory.getInstance().displayRadiusImage(view, url, radius, errorResId, width, height);
+        ImageLoaderFactory.getInstance().displayRadiusImage(view, url, radius, errorResId);
         return this;
     }
 
     /**
      * 根据URL加载圆角图片
      */
-    public XQuickViewHolder displayRadiusImage(int viewId, String url, int radius, int width, int height) {
+    public XQuickViewHolder displayRadiusImage(int viewId, GlideUrl url, int radius) {
         View view = getView(viewId);
-        ImageLoaderFactory.getInstance().displayRadiusImage(view, url, radius, width, height);
+        ImageLoaderFactory.getInstance().displayRadiusImage(view, url, radius);
         return this;
     }
 

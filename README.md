@@ -15,8 +15,8 @@ allprojects {
 	}
 
 
-implementation 'com.github.wenkency:quickadapter:2.0.0'
-implementation 'com.github.wenkency:imageloader:2.7.0'
+implementation 'com.github.wenkency:quickadapter:2.0.1'
+implementation 'com.github.wenkency:imageloader:2.8.0'
 implementation "com.github.bumptech.glide:glide:4.11.0"
 annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
 

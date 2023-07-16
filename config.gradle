@@ -1,11 +1,10 @@
 ext {
     app = [
             compileSdkVersion: 30,
-            buildToolsVersion: "30.0.0",
             minSdkVersion    : 14,
             targetSdkVersion : 30,
-            versionCode      : 1,
-            versionName      : "1.0"
+            versionCode      : 101,
+            versionName      : "1.0.1"
     ]
 
     // 公共配置
@@ -14,6 +13,6 @@ ext {
             recyclerview : "androidx.recyclerview:recyclerview:1.2.0-alpha04",
             glide        : "com.github.bumptech.glide:glide:4.11.0",
             glideCompiler: "com.github.bumptech.glide:compiler:4.11.0",
-            imageloader  : 'com.github.wenkency:imageloader:2.7.0'
+            imageloader  : 'com.github.wenkency:imageloader:2.8.0'
     ]
 }

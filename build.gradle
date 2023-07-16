@@ -2,13 +2,16 @@
 apply from: 'config.gradle'
 buildscript {
     repositories {
-        maven { url 'https://jitpack.io' }
+        gradlePluginPortal()
         google()
-        jcenter()
-        
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://repo.huaweicloud.com/repository/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.2.2'
 
         // 代码发布到远程仓库 https://jitpack.io/
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
@@ -17,9 +20,12 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'https://jitpack.io' }
         google()
-        jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://repo.huaweicloud.com/repository/maven' }
         
     }
 }

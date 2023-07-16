@@ -159,7 +159,6 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
         // 如果是多条目，viewType就是布局ID
         View view;
         if (mSupport != null) {
-
             int layoutId = mSupport.getLayoutId(mData.get(mPosition), mPosition);
             // 滚动布局
             // 粘附的Key
@@ -260,7 +259,7 @@ public abstract class XQuickAdapter<T> extends XBaseAdapter {
     /**
      * 绑定View的数据
      */
-    protected abstract void convert(XQuickViewHolder holder, T item, int position);
+    protected abstract void convert(@NonNull XQuickViewHolder holder,@NonNull T item, int position);
 
 
     //==========================================数据相关================================================
